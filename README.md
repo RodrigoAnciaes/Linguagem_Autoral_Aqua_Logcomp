@@ -7,7 +7,7 @@
 BLOCK = { STATEMENT };
 STATEMENT = ( "λ" | SPAW | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
 SPAW = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
-DISCOVER = "print", "(", IDENTIFIER, ")" ;
+DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
 RAIN = "rain","(", IDENTIFIER, ")" ;
@@ -19,7 +19,7 @@ NUMBER = DIGIT, { DIGIT } ;
 LETTER = ( "a" | "..." | "z" | "A" | "..." | "Z" ) ;
 DIGIT = ( "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "0" );
 TYPE = ( "river" | "fish" ) ;
-OP_T = ( "branch" | "acumulate" | ">>" ) ;
+OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 
 ```
 
@@ -30,6 +30,8 @@ OP_T = ( "branch" | "acumulate" | ">>" ) ;
 ## Introdução
 
 A linguagem Aqua desenvolvida para a matéria Lógica Computacional, é uma linguagem que simula o mundo natural ao escrever o código, para programar nessa linguagem é necessário criar connjuntos de rios e peixes e definir as relações entre eles. A linguagem é composta por 2 tipos de declarações, a declaração de rios, a declaração de peixes.
+
+Observação: A linguagem não possui necessidade de identação, porém é recomendado para melhor visualização do código.
 
 Um exemplo de código em Aqua é:
 
