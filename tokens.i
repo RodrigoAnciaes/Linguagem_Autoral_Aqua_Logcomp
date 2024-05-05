@@ -24,10 +24,14 @@ extern "C" int yywrap() { }
 "rain"                  TOKEN(TRAIN); return TRAIN;
 "river"                 TOKEN(TRIVER); return TRIVER;
 "sustains"              TOKEN(TSUSTAINS); return TSUSTAINS;
-"("                    TOKEN(TLPAREN); return TLPAREN;
-")"                    TOKEN(TRPAREN); return TRPAREN;
+"("                     TOKEN(TLPAREN); return TLPAREN;
+")"                     TOKEN(TRPAREN); return TRPAREN;
 [a-zA-Z_][a-zA-Z0-9_]*  SAVE_TOKEN; return TIDENTIFIER;
 [0-9]+                  SAVE_TOKEN; return TINTEGER;
 .                       printf("Unknown token!n"); yyterminate();
 
 %%
+
+int yywrap() {
+    return 1;
+}

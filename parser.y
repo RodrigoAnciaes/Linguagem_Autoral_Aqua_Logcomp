@@ -63,6 +63,22 @@
 %type <stmt> stmt var_decl func_decl
 %type <token> comparison
 
+/* my assossiations*/
+%type <block> block
+%type <stmt> stmt
+%type <spawn> spawn
+%type <discover> discover
+%type <sustain> sustain
+%type <event> event
+%type <rain> rain
+%type <dry> dry
+%type <extinction> extinction
+%type <operation> operation
+%type <identifier> identifier
+%type <number> number
+%type <type> type
+%type <operation_type> operation_type
+
 /* Operator precedence for mathematical operators */
 %left TPLUS TMINUS
 %left TMUL TDIV
