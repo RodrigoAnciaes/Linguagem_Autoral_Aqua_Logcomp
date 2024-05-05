@@ -8,16 +8,6 @@
 
 /* Represents the many different ways we can access our data */
 %union {
-    Node *node;
-    NBlock *block;
-    NExpression *expr;
-    NStatement *stmt;
-    NIdentifier *ident;
-    NVariableDeclaration *var_decl;
-    std::vector<NVariableDeclaration*> *varvec;
-    std::vector<NExpression*> *exprvec;
-    std::string *string;
-    int token;
     /* my nodes*/
     NBlock *block;
     NStatement *stmt;
@@ -39,11 +29,6 @@
    match our tokens.l lex file. We also define the node type
    they represent.
  */
-%token <string> TIDENTIFIER TINTEGER TDOUBLE
-%token <token> TCEQ TCNE TCLT TCLE TCGT TCGE TEQUAL
-%token <token> TLPAREN TRPAREN TLBRACE TRBRACE TCOMMA TDOT
-%token <token> TPLUS TMINUS TMUL TDIV
-
 /*My sybols*/
 %token <token> TFLOW TPREDATE TACUMULATE TBRANCH
 %token <token> TCONCLUDE TDISCOVER TDRY TEVENT
@@ -55,14 +40,6 @@
    we call an ident (defined by union type ident) we are really
    calling an (NIdentifier*). It makes the compiler happy.
  */
-%type <ident> ident
-%type <expr> numeric expr 
-%type <varvec> func_decl_args
-%type <exprvec> call_args
-%type <block> program stmts block
-%type <stmt> stmt var_decl func_decl
-%type <token> comparison
-
 /* my assossiations*/
 %type <block> block
 %type <stmt> stmt
@@ -80,9 +57,6 @@
 %type <operation_type> operation_type
 
 /* Operator precedence for mathematical operators */
-%left TPLUS TMINUS
-%left TMUL TDIV
-
 /*My operator procedance*/
 %left TFLOW TPREDATE TACUMULATE TBRANCH
 %left TDRY TRAIN
@@ -91,56 +65,71 @@
 
 %%
 
-program : stmts { programBlock = $1; }
-        ;
-        
-stmts : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
-      | stmts stmt { $1->statements.push_back($<stmt>2); }
-      ;
+/*EBNF:
 
-stmt : var_decl | func_decl
-     | expr { $$ = new NExpressionStatement(*$1); }
-     ;
+BLOCK = { STATEMENT };
+STATEMENT = ( "λ" | SPAW | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
+SPAW = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
+DISCOVER = "discover", "(", IDENTIFIER, ")" ;
+SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
+EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
+RAIN = "rain","(", IDENTIFIER, ")" ;
+DRY = "dry","(", IDENTIFIER, ")" ;
+EXTINCTION = "extingish", IDENTIFIER ; 
+OPERATION = IDENTIFIER, OP_T, NUMBER, ( "λ" | OP_T, IDENTIFIER ) ;
+IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
+NUMBER = DIGIT, { DIGIT } ;
+LETTER = ( "a" | "..." | "z" | "A" | "..." | "Z" ) ;
+DIGIT = ( "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "0" );
+TYPE = ( "river" | "fish" ) ;
+OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
+*/
 
-block : TLBRACE stmts TRBRACE { $$ = $2; }
-      | TLBRACE TRBRACE { $$ = new NBlock(); }
-      ;
+program: block { programBlock = $1; }
 
-var_decl : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
-         | ident ident TEQUAL expr { $$ = new NVariableDeclaration(*$1, *$2, $4); }
-         ;
-        
-func_decl : ident ident TLPAREN func_decl_args TRPAREN block 
-            { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
-          ;
-    
-func_decl_args : /*blank*/  { $$ = new VariableList(); }
-          | var_decl { $$ = new VariableList(); $$->push_back($<var_decl>1); }
-          | func_decl_args TCOMMA var_decl { $1->push_back($<var_decl>3); }
-          ;
+block: /* nothing */ { $$ = new NBlock(); }
+    | block stmt { $$ = $1; if ($2 != NULL) $1->statements.push_back($2); }
 
-ident : TIDENTIFIER { $$ = new NIdentifier(*$1); delete $1; }
-      ;
+stmt: spawn { $$ = $1; }
+    | discover { $$ = $1; }
+    | sustain { $$ = $1; }
+    | event { $$ = $1; }
+    | rain { $$ = $1; }
+    | dry { $$ = $1; }
+    | extinction { $$ = $1; }
+    | operation { $$ = $1; }
 
-numeric : TINTEGER { $$ = new NInteger(atol($1->c_str())); delete $1; }
-        | TDOUBLE { $$ = new NDouble(atof($1->c_str())); delete $1; }
-        ;
-    
-expr : ident TEQUAL expr { $$ = new NAssignment(*$<ident>1, *$3); }
-     | ident TLPAREN call_args TRPAREN { $$ = new NMethodCall(*$1, *$3); delete $3; }
-     | ident { $<ident>$ = $1; }
-     | numeric
-     | expr comparison expr { $$ = new NBinaryOperator(*$1, $2, *$3); }
-     | TLPAREN expr TRPAREN { $$ = $2; }
-     ;
-    
-call_args : /*blank*/  { $$ = new ExpressionList(); }
-          | expr { $$ = new ExpressionList(); $$->push_back($1); }
-          | call_args TCOMMA expr  { $1->push_back($3); }
-          ;
+spawn: type identifier number { $$ = new NSpawn($1, $2, $3); }
 
-comparison : TCEQ | TCNE | TCLT | TCLE | TCGT | TCGE 
-           | TPLUS | TMINUS | TMUL | TDIV
-           ;
+discover: TDISCOVER TLPAREN identifier TRPAREN { $$ = new NDiscover($3); }
+
+sustain: identifier TSUSTAINS identifier '\n' { $$ = new NSustain($1, $3); }
+    | identifier TSUSTAINS identifier '\n' block TPASSTIME { $$ = new NSustain($1, $3, $5); }
+
+event: TEVENT identifier operation identifier '\n' { $$ = new NEvent($2, $3, $4); }
+
+rain: TRAIN TLPAREN identifier TRPAREN { $$ = new NRain($3); }
+
+dry: TDRY TLPAREN identifier TRPAREN { $$ = new NDry($3); }
+
+extinction: TEXTINGUISH identifier { $$ = new NExtinction($2); }
+
+operation: identifier operation_type number { $$ = new NOperation($1, $2, $3); }
+    | identifier operation_type number operation_type identifier { $$ = new NOperation($1, $2, $3, $4, $5); }
+
+identifier: TIDENTIFIER { $$ = new NIdentifier(*$1); }
+
+number: TNUMBER { $$ = new NNumber(*$1); }
+
+type: TRIVER { $$ = new NType(*$1); }
+    | TFISH { $$ = new NType(*$1); }
+
+operation_type: TBRANCH { $$ = new NOperation_Type(*$1); }
+    | TACUMULATE { $$ = new NOperation_Type(*$1); }
+    | TPREDATE { $$ = new NOperation_Type(*$1); }
+    | TFLOW { $$ = new NOperation_Type(*$1); }
+
+
+
 
 %%
