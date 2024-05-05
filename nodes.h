@@ -136,7 +136,10 @@ public:
     virtual llvm::Value* codeGen(CodeGenContext& context);
 };
 
-/* My nodes*/
+
+/**************************/
+        /* My nodes*/
+/**************************/
 
 class NSpawn : public NStatement {
 public:

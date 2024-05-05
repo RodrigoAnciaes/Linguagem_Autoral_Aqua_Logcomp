@@ -22,7 +22,7 @@
     NIdentifier *identifier;
     NNumber *number;
     NType *type;
-    NOperation_Type *operation_type;
+    NOperationType *operation_type;
 }
 
 /* Define our terminal symbols (tokens). This should
@@ -124,10 +124,10 @@ number: TNUMBER { $$ = new NNumber(*$1); }
 type: TRIVER { $$ = new NType(*$1); }
     | TFISH { $$ = new NType(*$1); }
 
-operation_type: TBRANCH { $$ = new NOperation_Type(*$1); }
-    | TACUMULATE { $$ = new NOperation_Type(*$1); }
-    | TPREDATE { $$ = new NOperation_Type(*$1); }
-    | TFLOW { $$ = new NOperation_Type(*$1); }
+operation_type: TBRANCH { $$ = new NOperationType(*$1); }
+    | TACUMULATE { $$ = new NOperationType(*$1); }
+    | TPREDATE { $$ = new NOperationType(*$1); }
+    | TFLOW { $$ = new NOperationType(*$1); }
 
 
 
