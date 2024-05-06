@@ -7,24 +7,6 @@
 void yyerror(const char *s);
 extern int yylex();
 
-typedef struct {
-    char *name;
-    int time;
-} Task;
-
-Task tasks[100];
-int numTasks = 0;
-
-/* Function to find task by name */
-Task* findTaskByName(const char *name) {
-    for (int i = 0; i < numTasks; ++i) {
-        if (strcmp(tasks[i].name, name) == 0) {
-            return &tasks[i];
-        }
-    }
-    return NULL;
-}
-
 %}
 
 
