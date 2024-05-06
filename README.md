@@ -6,7 +6,7 @@
 ``` 
 BLOCK = { STATEMENT };
 STATEMENT = ( "λ" | SPAWN | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
-SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER ) ;
+SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER | NUMBER, ",", NUMBER ) ;
 DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
@@ -81,11 +81,11 @@ x acumulate 5
 fish z create 2,1
 fish f create 1,1
 x sustains z:
-    y >> 1 >> x:
-    f -> z   
-    event z inf f 
-        extingish f
-        conclude
+y >> 1 >> x:
+f -> z   
+event z inf f 
+extingish f
+conclude
 pass_time
 rain(y)
 dry(x)

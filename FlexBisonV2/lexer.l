@@ -28,6 +28,9 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 %%
 
 
+
+","                    { printf("encontrei virgula\n");
+                        return ','; }
 "create"               { printf("encontrei create\n");
                         return CREATE; }
 "branch"               { printf("encontrei branch\n");
@@ -37,9 +40,9 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 "->"                   { printf("encontrei ->\n");
                         return ARROW; }
 "river"                { printf("encontrei river\n");
-                        return TYPE; }
+                        return RIVER; }
 "fish"                 { printf("encontrei fish\n");
-                        return TYPE; }
+                        return FISH; }
 "discover"             { printf("encontrei discover\n");
                         return DISCOVER; }
 "sustains"             { printf("encontrei sustains\n");

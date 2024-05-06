@@ -37,7 +37,7 @@ Task* findTaskByName(const char *name) {
 EBNF:
 BLOCK = { STATEMENT };
 STATEMENT = ( "λ" | SPAWN | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
-SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER ) ;
+SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER | NUMBER, ",", NUMBER ) ;
 DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
@@ -55,7 +55,7 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 
 %token <string> STRING
 %token <integer> NUMBER
-%token <string> BRANCH ACUMULATE ARROW FLOW TYPE DISCOVER SUSTAINS EVENT RAIN DRY EXTINGUISH OPERATION PASS_TIME CONCLUDE CREATE
+%token <string> BRANCH ACUMULATE ARROW FLOW RIVER FISH DISCOVER SUSTAINS EVENT RAIN DRY EXTINGUISH OPERATION PASS_TIME CONCLUDE CREATE
 
 %%
 
@@ -76,23 +76,26 @@ statement: spawn '\n'
     ;
 
 
-spawn: TYPE STRING CREATE NUMBER
-    | TYPE STRING CREATE
+spawn: RIVER STRING CREATE NUMBER
+    | RIVER STRING CREATE
+    | FISH STRING CREATE NUMBER ',' NUMBER
+    | FISH STRING CREATE
     ;
 
 discover: DISCOVER '(' STRING ')'
     ;
 
-sustaining: sustaining statement
-    | statement
 
-sustain: STRING SUSTAINS STRING '\n' sustaining PASS_TIME
+sustain: STRING SUSTAINS STRING '\n' PASS_TIME
+    | STRING SUSTAINS STRING '\n' statements PASS_TIME
     ;
 
 statements: statements statement
     | statement
+    ;
 
 event: EVENT STRING STRING STRING '\n' statements CONCLUDE
+    ;
 
 rain: RAIN '(' STRING ')'
     ;
@@ -109,7 +112,7 @@ operation: STRING BRANCH NUMBER
     | STRING ACUMULATE STRING
     | STRING ARROW NUMBER
     | STRING ARROW STRING
-    | STRING FLOW NUMBER FLOW NUMBER
+    | STRING FLOW NUMBER FLOW STRING
 
 %%
 
