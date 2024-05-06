@@ -5,8 +5,8 @@
 
 ``` 
 BLOCK = { STATEMENT };
-STATEMENT = ( "λ" | SPAW | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
-SPAW = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
+STATEMENT = ( "λ" | SPAWN | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
+SPAWN = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
 DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
