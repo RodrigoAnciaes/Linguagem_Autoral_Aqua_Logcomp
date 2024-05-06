@@ -124,9 +124,9 @@ void yyerror(const char *s) {
 int main() {
     printf("Digite o programa:\n");
     if (yyparse() == 0) {
-        printf("Programa aceito\n");
+        printf("Programa aceito pelo parser\n");
     } else {
-        printf("Programa rejeitado\n");
+        printf("Programa rejeitado pelo parser\n");
     }
     return 0;
 }
