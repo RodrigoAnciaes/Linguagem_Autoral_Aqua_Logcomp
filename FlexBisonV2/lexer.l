@@ -28,6 +28,12 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 %%
 
 
+"inf"                 { printf("encontrei inferior\n");
+                        return COMPARISSON; }
+"sup"                 { printf("encontrei superior\n");
+                        return COMPARISSON; }
+"ig"                  { printf("encontrei igual\n");
+                        return COMPARISSON; }
 
 ","                    { printf("encontrei virgula\n");
                         return ','; }
