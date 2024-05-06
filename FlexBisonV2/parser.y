@@ -60,7 +60,7 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 %%
 
 
-block: statement
+block: statements
     ;
 
 
