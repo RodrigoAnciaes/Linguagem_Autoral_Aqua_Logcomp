@@ -6,7 +6,7 @@
 ``` 
 BLOCK = { STATEMENT };
 STATEMENT = ( "λ" | SPAWN | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
-SPAWN = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
+SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER ) ;
 DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
@@ -33,7 +33,7 @@ A linguagem Aqua desenvolvida para a matéria Lógica Computacional, é uma ling
 
 Observação: A linguagem não possui necessidade de identação, porém é recomendado para melhor visualização do código.
 
-Um exemplo de código em Aqua é:
+Um exemplo comentado de código em Aqua é:
 
 ```
 river x create 10 #cria um rio com 10 de água
@@ -63,5 +63,31 @@ pass_time # passa o tempo (recomeça o loop)
 rain(y) # todos os rios recebem valor de agua equivalente quantidade em y
 
 dry(x) # todos os rios perdem valor de agua equivalente quantidade em x
+
+```
+
+Um exemplo limpo de código em Aqua é:
+
+```
+river x create 10
+river y create 10
+x >> 5 >> y
+discover(x)
+discover(y)
+x branch 5
+discover(x)
+y >> 1 >> x
+x acumulate 5
+fish z create 2,1
+fish f create 1,1
+x sustains z:
+    y >> 1 >> x:
+    f -> z   
+    event z inf f 
+        extingish f
+        conclude
+pass_time
+rain(y)
+dry(x)
 
 ```

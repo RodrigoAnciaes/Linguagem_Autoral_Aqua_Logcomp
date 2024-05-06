@@ -37,7 +37,7 @@ Task* findTaskByName(const char *name) {
 EBNF:
 BLOCK = { STATEMENT };
 STATEMENT = ( "λ" | SPAWN | DISCOVER | SUSTAIN | EVENT | RAIN | DRY | EXTINCTION | OPERATION ), "\n" ;
-SPAWN = TYPE, IDENTIFIER, NUMBER, ( "λ" | NUMBER ) ;
+SPAWN = TYPE, IDENTIFIER, "create", ( "λ" | NUMBER ) ;
 DISCOVER = "discover", "(", IDENTIFIER, ")" ;
 SUSTAIN = IDENTIFIER, "sustains", IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "pass_time" ;
 EVENT = "event", IDENTIFIER, COMPARISSON, IDENTIFIER, "\n", "λ", { ( STATEMENT ), "λ" }, "conclude" ;
@@ -55,7 +55,7 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 
 %token <string> STRING
 %token <integer> NUMBER
-%token <string> BRANCH ACUMULATE ARROW FLOW TYPE DISCOVER SUSTAINS EVENT RAIN DRY EXTINGUISH OPERATION PASS_TIME CONCLUDE
+%token <string> BRANCH ACUMULATE ARROW FLOW TYPE DISCOVER SUSTAINS EVENT RAIN DRY EXTINGUISH OPERATION PASS_TIME CONCLUDE CREATE
 
 %%
 
@@ -72,11 +72,12 @@ statement: spawn '\n'
     | dry '\n'
     | extinguish '\n'
     | operation '\n'
+    | '\n'
     ;
 
 
-spawn: TYPE STRING NUMBER NUMBER
-    | TYPE STRING NUMBER
+spawn: TYPE STRING CREATE NUMBER
+    | TYPE STRING CREATE
     ;
 
 discover: DISCOVER '(' STRING ')'
