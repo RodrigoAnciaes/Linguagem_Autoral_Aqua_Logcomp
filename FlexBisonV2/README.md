@@ -1,9 +1,9 @@
 # How to Run Flex/Bison for this project
 
 ## Requirements
-- Flex
-- Bison
-- GCC
+- Flex (utilized version = flex 2.6.4)
+- Bison (utilized version = bison (GNU Bison) 3.8.2)
+- GCC   (utilized version = gcc (Debian 13.2.0-23) 13.2.0)
 
 ## How to Run
 1. Run the following command to generate the C files from the Flex and Bison files:
