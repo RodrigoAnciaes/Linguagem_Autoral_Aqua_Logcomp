@@ -5,24 +5,27 @@ river x create 10
 river y create 10
 
 x >> 5 >> y
-discover(x) # printa 5
-discover(y) # printa 15
+discover(x) -- imprime 5
+discover(y) -- imprime 15
 
 x branch 5
-discover(x) #printa 1
-y >> 1 >> x #x=2
-x acumulate 5 # x = x*5
+discover(x) -- imprime 1
+y >> 1 >> x -- x=2
+x acumulate 5 -- x = x*5
 
-fish z create 2,1 #cria uma população de 2 que consome 1 por individuo
+fish z create 2,1 --cria uma população de 2 que consome 1 por individuo
 fish f create 1,1
 
-x sustains z: # enquanto x sustentar z # para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (população-população%2)*2
-    y >> 1 >> x:
-    f -> z    #f caça z para aumentar seu numero em (população-população%2)*2
-    event z inf f # caso população de z é inferior a f
-        extingish f
-        conclude
-pass_time
+x sustains z: -- enquanto x sustentar z 
+-- para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (populaçãox = populaçãox + (populaçãox-populaçãox%2) + sub)
+-- sub = dif se dif > 0 else 0
+-- dif = populaçãoz - populaçãox*consumox
+y >> 1 >> x:
+f -> z    -- f consome z para aumentar seu numero da mesma maneira do suatains
+event z inf f -- caso população de z é inferior a f inicia um evento
+extingish f -- f é extinto (delete f)
+conclude -- fim do evento
+pass_time -- passa o tempo (recomeça o loop)
 
 rain(y)
 

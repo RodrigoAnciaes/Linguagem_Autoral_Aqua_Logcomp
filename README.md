@@ -36,33 +36,36 @@ Observação: A linguagem não possui necessidade de identação, porém é reco
 Um exemplo comentado de código em Aqua é:
 
 ```
-river x create 10 #cria um rio com 10 de água
+river x create 10 --cria um rio com 10 de água
 
 river y create 10
 
-x >> 5 >> y # O rio x transfere 5 de água para o rio y
-discover(x) # imprime 5
-discover(y) # imrime 15
+x >> 5 >> y -- O rio x transfere 5 de água para o rio y
+discover(x) -- imprime 5
+discover(y) -- imrime 15
 
-x branch 5 # O rio x se divide em 5 rios
-discover(x) # imprime 1
-y >> 1 >> x # O rio y transfere 1 de água para o rio x
-x acumulate 5 # x = x*5 (o rio x acumula 5 vezes a quantidade de água que ele tem)
+x branch 5 -- O rio x se divide em 5 rios
+discover(x) -- imprime 1
+y >> 1 >> x -- O rio y transfere 1 de água para o rio x
+x acumulate 5 -- x = x*5 (o rio x acumula 5 vezes a quantidade de água que ele tem)
 
-fish z create 2,1 # cria uma população de 2 que consome 1 por individuo
-fish f create 1,1 # cria uma população de 1 que consome 1 por individuo
+fish z create 2,1 -- cria uma população de 2 que consome 1 por individuo
+fish f create 1,1 -- cria uma população de 1 que consome 1 por individuo
 
-x sustains z: # enquanto x sustentar z # para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (população-população%2) (populaçãox = populaçãox + (populaçãox-populaçãox%2) )
-    y >> 1 >> x:
-    f -> z    # f consome z para aumentar seu numero da mesma maneira do suatains
-    event z inf f # caso população de z é inferior a f inicia um evento
-        extingish f # f é extinto (delete f)
-        conclude # fim do evento
-pass_time # passa o tempo (recomeça o loop)
+x sustains z: -- enquanto x sustentar z 
+-- para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (populaçãox = populaçãox + (populaçãox-populaçãox%2) + sub)
+-- sub = dif se dif > 0 else 0
+-- dif = populaçãoz - populaçãox*consumox
+y >> 1 >> x:
+f -> z    -- f consome z para aumentar seu numero da mesma maneira do suatains
+event z inf f -- caso população de z é inferior a f inicia um evento
+extingish f -- f é extinto (delete f)
+conclude -- fim do evento
+pass_time -- passa o tempo (recomeça o loop)
 
-rain(y) # todos os rios recebem valor de agua equivalente quantidade em y
+rain(y) -- todos os rios recebem valor de agua equivalente quantidade em y
 
-dry(x) # todos os rios perdem valor de agua equivalente quantidade em x
+dry(x) -- todos os rios perdem valor de agua equivalente quantidade em x
 
 ```
 
