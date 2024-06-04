@@ -1,6 +1,10 @@
 
 # Linguagem Autoral Aqua LogComp
 
+## Compilador e exemplos
+
+O compilador e exemplos de código se encontram na pasta Compiler.
+
 ## EBNF
 
 ``` 
@@ -26,11 +30,6 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 ## Diagrama Sintático
 
 ![Diagrama Sintático](DiagramaSintatico.png)
-
-
-## Compilador e exemplos
-
-O compilador e exemplos de código se encontram na pasta Compiler.
 
 ## Introdução
 
