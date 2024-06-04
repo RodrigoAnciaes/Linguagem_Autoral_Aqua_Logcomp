@@ -42,8 +42,6 @@ class Create(Node):
 
 
         def evaluate(self):
-            if self.st.lookup(self.name) != None:
-                raise Exception('Variable ' + self.name + ' already exists')
             self.st.create_assign(self.name, self.value1, self.value2, self.var_type)
 
         def __str__(self):
@@ -55,13 +53,18 @@ class Discover(Node):
             super().__init__(value)
 
         def evaluate(self):
-            value1, value2, type = self.value.evaluate()
-            print('Discovered', value1, value2, type)
+            value1, value2, type, name = self.value.evaluate()
+            if type == 'river':
+                print(f'{name} is a river with flow of {value1}')
+            elif type == 'fish':
+                print(f'{name} is a fish with {value1} population and {value2} of consumption')
+            else:
+                raise Exception('Invalid operation')
 
         def __str__(self):
             return 'Discover(' + str(self.value) + ')'
         
-class FLOW(Node):
+class Flow(Node):
     # x >> 5 >> y 
     # a variável x transfere 5 para a variável y
     def __init__(self, value: int, left: Node, right: Node, st: Symbol_Table):
@@ -127,8 +130,8 @@ class Acumulate(Node):
 class Arrow(Node):
     # x -> y
     # cada f caça z para aumentar seu numero em (população-população%2)
-    def __init__(self, value: int, left: Node, right: Node, st: Symbol_Table):
-        super().__init__(value)
+    def __init__(self, left: Node, right: Node, st: Symbol_Table):
+        super().__init__(None)
         self.left = left
         self.right = right
         self.st = st
@@ -136,10 +139,10 @@ class Arrow(Node):
     def evaluate(self):
         varl1, varl2, typel, namel = self.left.evaluate()
         varr1, varr2, typer, namer = self.right.evaluate()
-        if typel != 'fish' or typer != 'river':
+        if typel != 'fish':
             raise Exception('Invalid operation')
-        varl1 = varl1 + (varl1 - varl1%2) # aumenta seu numero em (população-população%2)
         varr1 = varr1 - (varl2*varl1) # cada z consome x no valor de seu consumo varl2
+        varl1 = varl1 + (varl1 - varl1%2) # aumenta seu numero em (população-população%2)
         # insert the new values in the symbol table
         self.st.insert(namel, varl1, varl2, typel)
         self.st.insert(namer, varr1, varr2, typer)
@@ -166,8 +169,8 @@ class Sustains(Node):
             varr1, varr2, typer, namer = self.right.evaluate()
             if typer != 'fish':
                 raise Exception('Invalid operation')
+            varl1 = varl1 - (varr2*varr1)
             varr1 = varr1 + (varr1 - varr1%2)
-            varl1 = varl1 - (varr2*varl1)
             # insert the new values in the symbol table
             self.st.insert(namel, varl1, varl2, typel)
             self.st.insert(namer, varr1, varr2, typer)
@@ -200,13 +203,14 @@ class Rain(Node):
         super().__init__(None)
         self.value = value
         self.st = st
-        self.val1, val2, typ, name = self.value.evaluate()
 
     def evaluate(self):
+        self.val1, val2, typ, name = self.value.evaluate()
         all_rivers = self.st.look_all_rivers()
         for i in all_rivers:
-            i[0] += self.val1
-            self.st.insert(i[3], i[0], i[1], i[2])
+            flow = i[0]
+            flow += self.val1
+            self.st.insert(i[3], flow, i[1], i[2])
 
     def __str__(self):
         return 'Rain(' + str(self.value) + ')'
@@ -216,13 +220,14 @@ class Dry(Node):
         super().__init__(None)
         self.value = value
         self.st = st
-        self.val1, val2, typ, name = self.value.evaluate()
 
     def evaluate(self):
+        self.val1, val2, typ, name = self.value.evaluate()
         all_rivers = self.st.look_all_rivers()
         for i in all_rivers:
-            i[0] -= self.val1
-            self.st.insert(i[3], i[0], i[1], i[2])
+            flow = i[0]
+            flow -= self.val1
+            self.st.insert(i[3], flow, i[1], i[2])
 
     def __str__(self):
         return 'Dry(' + str(self.value) + ')'
@@ -251,6 +256,37 @@ class Statement(Node):
         
             def __str__(self):
                 return f'{self.value} {self.child}'
+            
+
+class COMPARISSON(Node):
+    def __init__(self, left: Node, right: Node, value: str):
+        super().__init__(value)
+        self.left = left
+        self.right = right
+
+    def evaluate(self):
+        if self.value == 'inf':
+            return self.left.evaluate() < self.right.evaluate()
+        elif self.value == 'sup':
+            return self.left.evaluate() > self.right.evaluate()
+        elif self.value == 'ig':
+            return self.left.evaluate() == self.right.evaluate()
+
+    def __str__(self):
+        return f'{self.left} {self.value} {self.right}'
+    
+
+class Extinguish(Node):
+    def __init__(self, name: str, st: Symbol_Table):
+        super().__init__(None)
+        self.name = name
+        self.st = st
+
+    def evaluate(self):
+        self.st.remove(self.name)
+
+    def __str__(self):
+        return 'Extinguish(' + self.name + ')'
     
 
 

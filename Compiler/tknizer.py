@@ -37,7 +37,7 @@ class Tknizer(object):
             start = self.position
             while self.position < len(self.source) and self.source[self.position].isdigit():
                 self.position += 1
-            next = Tkn(Tkn.type.NUM, int(self.source[start:self.position]))
+            next = Tkn(Tkn.type.NUMBER, int(self.source[start:self.position]))
             self.next = next
             return next
         
@@ -172,7 +172,7 @@ class Tknizer(object):
             
         #conclude
         if self.source[self.position] == 'c':
-            if self.position+8 < len(self.source) and self.source[self.position:self.position+8] == 'conclude':
+            if self.position+7 < len(self.source) and self.source[self.position:self.position+8] == 'conclude':
                 tkn = Tkn(Tkn.type.CONCLUDE, 'conclude')
                 self.position += 8
                 next = tkn
@@ -206,20 +206,11 @@ class Tknizer(object):
                 self.next = next
                 return tkn
             
-        #operation
-        if self.source[self.position] == 'o':
-            if self.position+9 < len(self.source) and self.source[self.position:self.position+9] == 'operation':
-                tkn = Tkn(Tkn.type.OPERATION, 'operation')
-                self.position += 9
-                next = tkn
-                self.next = next
-                return tkn
-            
         #pass_time
         if self.source[self.position] == 'p':
-            if self.position+8 < len(self.source) and self.source[self.position:self.position+8] == 'pass_time':
+            if self.position+8 < len(self.source) and self.source[self.position:self.position+9] == 'pass_time':
                 tkn = Tkn(Tkn.type.PASS_TIME, 'pass_time')
-                self.position += 8
+                self.position += 9
                 next = tkn
                 self.next = next
                 return tkn
@@ -233,9 +224,9 @@ class Tknizer(object):
         #ID
         if self.source[self.position].isalpha():
             start = self.position
-            while self.position < len(self.source) and self.source[self.position].isalnum() or self.source[self.position] == '_':
+            while self.position < len(self.source) and (self.source[self.position].isalnum() or self.source[self.position] == '_'):
                 self.position += 1
-            next = Tkn(Tkn.type.ID, self.source[start:self.position])
+            next = Tkn(Tkn.type.IDENTIFIER, self.source[start:self.position])
             self.next = next
             return next
         

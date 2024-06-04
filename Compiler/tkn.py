@@ -32,8 +32,8 @@ class Tkn(object):
         CONCLUDE = 15
         CREATE = 16
         COMPARISSON = 17
-        NUM = 18
-        ID = 19
+        NUMBER = 18
+        IDENTIFIER = 19
         NEWLINE = 20
         EOF = 21
         PAREN_OPEN = 22

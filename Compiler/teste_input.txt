@@ -1,0 +1,26 @@
+river x create 10
+river y create 10
+x >> 5 >> y
+discover(x)
+discover(y)
+x branch 5
+discover(x)
+y >> 1 >> x
+x acumulate 5
+fish z create 2,1
+fish f create 1,1
+x sustains z
+y >> 1 >> x
+f -> z   
+event z inf f 
+extinguish f
+conclude
+pass_time
+discover(x)
+discover(y)
+rain(y)
+discover(x)
+discover(y)
+dry(x)
+discover(x)
+discover(y)
