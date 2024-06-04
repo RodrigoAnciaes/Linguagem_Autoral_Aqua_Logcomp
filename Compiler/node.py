@@ -100,7 +100,7 @@ class Branch(Node):
         varl1, varl2, typel, namel = self.left.evaluate()
         if typel != 'river':
             raise Exception('Invalid operation')
-        varl1 = varl1 / self.value
+        varl1 = varl1 // self.value # se ramifica (divisão inteira)
         # insert the new values in the symbol table
         self.st.insert(namel, varl1, varl2, typel)
 
