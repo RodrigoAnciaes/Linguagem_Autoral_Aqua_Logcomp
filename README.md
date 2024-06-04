@@ -5,6 +5,10 @@
 
 O compilador e exemplos de código se encontram na pasta Compiler.
 
+## Apresentação
+
+Slides de apresentação: [Slides](Apresentacao_Linguagem_de_Programação_Aqua.pdf)
+
 ## EBNF
 
 ``` 
