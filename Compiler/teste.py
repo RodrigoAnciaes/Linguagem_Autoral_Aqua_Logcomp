@@ -17,4 +17,4 @@ def test_main(args):
         print(str(e))
 
 # Teste com diferentes argumentos
-test_main(['Compiler/teste_input.txt'])
+test_main(['Compiler/ex0.aqua'])

@@ -211,7 +211,9 @@ class Rain(Node):
         self.st = st
 
     def evaluate(self):
-        self.val1, val2, typ, name = self.value.evaluate()
+        self.val1, val2, type, name = self.value.evaluate()
+        if type != 'river':
+            raise Exception('Invalid operation')
         all_rivers = self.st.look_all_rivers()
         for i in all_rivers:
             flow = i[0]
@@ -228,7 +230,9 @@ class Dry(Node):
         self.st = st
 
     def evaluate(self):
-        self.val1, val2, typ, name = self.value.evaluate()
+        self.val1, val2, type, name = self.value.evaluate()
+        if type != 'river':
+            raise Exception('Invalid operation')
         all_rivers = self.st.look_all_rivers()
         for i in all_rivers:
             flow = i[0]

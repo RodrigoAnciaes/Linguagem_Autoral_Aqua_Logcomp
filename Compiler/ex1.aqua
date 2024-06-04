@@ -1,0 +1,11 @@
+
+
+
+river x create 10
+river y create 10
+
+x branch 5
+x acumulate 5
+discover(x)
+
+
