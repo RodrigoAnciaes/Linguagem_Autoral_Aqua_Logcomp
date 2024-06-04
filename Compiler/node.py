@@ -228,6 +228,31 @@ class Dry(Node):
         return 'Dry(' + str(self.value) + ')'
     
 
+class NoOp(Node):
+    def __init__(self):
+        super().__init__(None)
+
+    def evaluate(self):
+        return None
+
+    def __str__(self):
+        return 'NoOp()'
+    
+
+class Statement(Node):
+        
+            def __init__(self, value: Node, child: Node):
+                super().__init__(value)
+                self.child = child
+        
+            def evaluate(self):
+                self.value.evaluate()
+                self.child.evaluate()
+        
+            def __str__(self):
+                return f'{self.value} {self.child}'
+    
+
 
 
 
