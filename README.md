@@ -53,9 +53,9 @@ fish z create 2,1 -- cria uma população de 2 que consome 1 por individuo
 fish f create 1,1 -- cria uma população de 1 que consome 1 por individuo
 
 x sustains z: -- enquanto x sustentar z 
--- para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (populaçãox = populaçãox + (populaçãox-populaçãox%2) + sub)
+-- para sustentar z é maior que 0 e z consome (reduz o valor de) x no valor de seu (consumoz*populaçãoz) e aumenta seu numero em (populaçãoz = populaçãoz + (populaçãoz-populaçãoz%2) + sub)
 -- sub = dif se dif > 0 else 0
--- dif = populaçãoz - populaçãox*consumox
+-- dif = populaçãox - populaçãoz*consumoz
 y >> 1 >> x:
 f -> z    -- f consome z para aumentar seu numero da mesma maneira do suatains
 event z inf f -- caso população de z é inferior a f inicia um evento
