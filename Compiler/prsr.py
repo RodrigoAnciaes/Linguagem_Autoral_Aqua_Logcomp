@@ -66,25 +66,48 @@ class Prsr(object):
             tknizer.select_next()
             return NoOp()
         if tknizer.next.type == Tkn.type.FISH or tknizer.next.type == Tkn.type.RIVER:
-            return Prsr.parse_spawn(tknizer, symbol_table)
+            result =  Prsr.parse_spawn(tknizer, symbol_table)
+            print("teste2: ",tknizer.next.type)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.DISCOVER:
-            return Prsr.parse_discover(tknizer, symbol_table)
+            result = Prsr.parse_discover(tknizer, symbol_table)
+            print("teste3: ",tknizer.next.type)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.EVENT:
-            return Prsr.parse_event(tknizer, symbol_table)
+            result = Prsr.parse_event(tknizer, symbol_table)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.RAIN:
-            return Prsr.parse_rain(tknizer, symbol_table)
+            result = Prsr.parse_rain(tknizer, symbol_table)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.DRY:
-            return Prsr.parse_dry(tknizer, symbol_table)
+            result = Prsr.parse_dry(tknizer, symbol_table)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.EXTINGUISH:
-            return Prsr.parse_extinguish(tknizer, symbol_table)
+            result = Prsr.parse_extinguish(tknizer, symbol_table)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
         if tknizer.next.type == Tkn.type.IDENTIFIER:
             name = tknizer.next.value
             name = Identifier(name, symbol_table)
             tknizer.select_next()
             if tknizer.next.type == Tkn.type.SUSTAINS:
-                return Prsr.parse_sustains(tknizer, symbol_table, name)
+                result = Prsr.parse_sustains(tknizer, symbol_table, name)
             else:
-                return Prsr.parse_operation(tknizer, symbol_table, name)
+                result = Prsr.parse_operation(tknizer, symbol_table, name)
+            if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
+                raise Exception('Expected newline')
+            return result
     
     
 
@@ -113,7 +136,7 @@ class Prsr(object):
             tknizer.select_next()
         else:
             value2 = 0
-            tknizer.select_next()
+            #tknizer.select_next()
         return Create(name, value, value2, symbol_table, type)
     
     @staticmethod
