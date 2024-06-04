@@ -27,6 +27,11 @@ OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
 
 ![Diagrama Sintático](DiagramaSintatico.png)
 
+
+## Compilador e exemplos
+
+O compilador e exemplos de código se encontram na pasta Compiler.
+
 ## Introdução
 
 A linguagem Aqua desenvolvida para a matéria Lógica Computacional, é uma linguagem que simula o mundo natural ao escrever o código, para programar nessa linguagem é necessário criar connjuntos de rios e peixes e definir as relações entre eles. A linguagem é composta por 2 tipos de declarações, a declaração de rios, a declaração de peixes.

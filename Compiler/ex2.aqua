@@ -5,6 +5,7 @@
 fish z create 2,1
 fish f create 2,1
 f -> z
-
+discover(f)
+discover(z)
 
 

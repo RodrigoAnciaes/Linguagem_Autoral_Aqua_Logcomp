@@ -7,6 +7,8 @@ river o create 10
 
 x sustains z
 
+discover(z)
+discover(f)
 event z inf f
 discover(o)
 conclude

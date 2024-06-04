@@ -1,10 +1,11 @@
 
 
 
-river x create 10
+river x create 5
 river y create 10
 
 rain(y)
 dry(x)
 
-
+discover(x)
+discover(y)
