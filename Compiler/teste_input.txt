@@ -21,13 +21,16 @@ river o create 10
 x >> 8 >> y
 x sustains z
 discover(x)
-discover(z)
-f -> z
-discover(z)   
+discover(z) 
 event z inf f 
 discover(o)
 conclude
 pass_time
+
+discover(o)
+f -> z
+discover(f)
+discover(z)  
 
 discover(x)
 discover(y)
