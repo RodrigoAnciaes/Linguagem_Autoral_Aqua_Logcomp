@@ -52,9 +52,9 @@ x acumulate 5 # x = x*5 (o rio x acumula 5 vezes a quantidade de água que ele t
 fish z create 2,1 # cria uma população de 2 que consome 1 por individuo
 fish f create 1,1 # cria uma população de 1 que consome 1 por individuo
 
-x sustains z: # enquanto x sustentar z # para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (população-população%2)*2
+x sustains z: # enquanto x sustentar z # para sustentar z é maior que 0 e z consome x no valor de seu consumo e aumenta seu numero em (população-população%2) (populaçãox = populaçãox + (populaçãox-populaçãox%2) )
     y >> 1 >> x:
-    f -> z    # f caça z para aumentar seu numero em (população-população%2)*2
+    f -> z    # f consome z para aumentar seu numero da mesma maneira do suatains
     event z inf f # caso população de z é inferior a f inicia um evento
         extingish f # f é extinto (delete f)
         conclude # fim do evento
