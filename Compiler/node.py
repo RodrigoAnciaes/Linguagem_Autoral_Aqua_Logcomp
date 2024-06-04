@@ -172,7 +172,7 @@ class Sustains(Node):
             varr1, varr2, typer, namer = self.right.evaluate()
             if typer != 'fish':
                 raise Exception('Invalid operation')
-            sub = varr1 - (varl2*varl1)
+            sub = varl1 - (varr2*varr1)
             if sub > 0:
                 sub = 0
             varl1 = varl1 - (varr2*varr1)
