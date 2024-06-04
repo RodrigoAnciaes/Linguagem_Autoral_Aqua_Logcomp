@@ -8,6 +8,10 @@ class Symbol_Table:
 
     def insert(self, name, value1, value2, type):
         if name in self.symbols:
+            if value2 < 0:
+                raise Exception('Negative value for consumption')
+            if value1 < 0:
+                value1 = 0
             self.symbols[name] = (value1, value2, type, name)
         else:
             raise Exception(f'Variable {name} not found in symbol table (insert)')
@@ -45,9 +49,10 @@ class Symbol_Table:
         self.symbols[name] = None
 
     def create_assign(self, name, value1, value2, type):
-        #if name in self.symbols:
-            #raise Exception(f'Variable {name} already exists')
-        #print('teste_ca', self.auto_id)
+        if value2 < 0:
+            raise Exception('Negative value for consumption')
+        if value1 < 0:
+            raise Exception('Negative value for population')
         self.symbols[name] = (value1, value2, type, name)
 
     def remove(self, name):

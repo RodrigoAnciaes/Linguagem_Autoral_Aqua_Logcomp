@@ -67,13 +67,11 @@ class Prsr(object):
             return NoOp()
         if tknizer.next.type == Tkn.type.FISH or tknizer.next.type == Tkn.type.RIVER:
             result =  Prsr.parse_spawn(tknizer, symbol_table)
-            print("teste2: ",tknizer.next.type)
             if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
                 raise Exception('Expected newline')
             return result
         if tknizer.next.type == Tkn.type.DISCOVER:
             result = Prsr.parse_discover(tknizer, symbol_table)
-            print("teste3: ",tknizer.next.type)
             if (tknizer.next.type != Tkn.type.NEWLINE) and (tknizer.next.type != Tkn.type.EOF):
                 raise Exception('Expected newline')
             return result

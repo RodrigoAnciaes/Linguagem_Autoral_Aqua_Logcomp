@@ -141,8 +141,11 @@ class Arrow(Node):
         varr1, varr2, typer, namer = self.right.evaluate()
         if typel != 'fish':
             raise Exception('Invalid operation')
+        sub = varr1 - (varl2*varl1)
+        if sub > 0:
+            sub = 0
         varr1 = varr1 - (varl2*varl1) # cada z consome x no valor de seu consumo varl2
-        varl1 = varl1 + (varl1 - varl1%2) # aumenta seu numero em (população-população%2)
+        varl1 = varl1 + (varl1 - varl1%2) + sub # aumenta seu numero em (população-população%2)
         # insert the new values in the symbol table
         self.st.insert(namel, varl1, varl2, typel)
         self.st.insert(namer, varr1, varr2, typer)
@@ -169,8 +172,11 @@ class Sustains(Node):
             varr1, varr2, typer, namer = self.right.evaluate()
             if typer != 'fish':
                 raise Exception('Invalid operation')
+            sub = varr1 - (varl2*varl1)
+            if sub > 0:
+                sub = 0
             varl1 = varl1 - (varr2*varr1)
-            varr1 = varr1 + (varr1 - varr1%2)
+            varr1 = varr1 + (varr1 - varr1%2) + sub
             # insert the new values in the symbol table
             self.st.insert(namel, varl1, varl2, typel)
             self.st.insert(namer, varr1, varr2, typer)
