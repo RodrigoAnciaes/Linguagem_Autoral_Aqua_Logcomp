@@ -4,7 +4,7 @@
 
 - Para compilar basta chamar o main.py passando o arquivo de entrada como argumento ou executar o teste.py que já chama o main.py passando o arquivo de entrada.
 
-- Existem 5 arquivos de exemplo nesta pasta, sinta-se livre para usá-los ou escrever o próprio código:
+- Existem 5 arquivos na pasta de exemplos, sinta-se livre para usá-los ou escrever o próprio código:
   - ex0.aqua
   - ex1.aqua
   - ex2.aqua

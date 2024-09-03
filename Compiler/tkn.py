@@ -1,20 +1,27 @@
+"""
+Module: tkn
+Description: This module defines the Tkn class
+and its associated types for use in a specific application.
+"""
+
 import enum
 
-class Tkn(object):
-    def __init__(self, type, value):
-        self.type = type
+class Tkn:
+    """
+    A class representing a token with a type and value.
+    """
+    def __init__(self, type_, value):
+        self.type = type_
         self.value = value
 
     def __str__(self):
-        return 'Tkn({type}, {value})'.format(
-            type=self.type,
-            value=repr(self.value)
-        )
-    
+        return f'Tkn({self.type}, {repr(self.value)})'
     def __repr__(self):
-        return self.__str__()   
-    
+        return self.__str__()
     class type(enum.Enum):
+        """
+        An enumeration representing the possible types of tokens.
+        """
         BRANCH = 1
         ACUMULATE = 2
         ARROW = 3
@@ -39,6 +46,3 @@ class Tkn(object):
         PAREN_OPEN = 22
         PAREN_CLOSE = 23
         COMMA = 24
-
-    
-    
