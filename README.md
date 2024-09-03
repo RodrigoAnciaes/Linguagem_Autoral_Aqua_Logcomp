@@ -1,6 +1,10 @@
 
 # Linguagem Autoral Aqua LogComp
 
+## Oficial documentation:
+
+https://rodrigoanciaes.github.io/Aqua-Documentation/
+
 ## Compilador e exemplos
 
 O compilador e exemplos de código se encontram na pasta Compiler.
