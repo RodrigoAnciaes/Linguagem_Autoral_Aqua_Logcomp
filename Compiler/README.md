@@ -4,7 +4,7 @@
 
 - Para compilar basta chamar o main.py passando o arquivo de entrada como argumento, por exemplo:
   ```bash
-  python3 main.py ex0.aqua
+  python3 main.py examples/ex0.aqua
   ```
 
 - Existem 5 arquivos na pasta de exemplos, sinta-se livre para usá-los ou escrever o próprio código:
