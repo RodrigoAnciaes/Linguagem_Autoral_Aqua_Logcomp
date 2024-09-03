@@ -3,7 +3,7 @@
 
 ## Compilador e exemplos
 
-O compilador e exemplos de código se encontram na pasta src/Compiler.
+O compilador e exemplos de código se encontram na pasta Compiler.
 
 ## Apresentação
 
