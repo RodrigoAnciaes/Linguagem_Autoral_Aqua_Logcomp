@@ -1,17 +1,16 @@
+# Aqua Joke Language
 
-# Linguagem Autoral Aqua LogComp
-
-## Oficial documentation:
+## Official documentation:
 
 https://rodrigoanciaes.github.io/Aqua-Documentation/
 
-## Compilador e exemplos
+## Compiler and examples
 
-O compilador e exemplos de código se encontram na pasta Compiler.
+The compiler and code examples can be found in the Compiler folder.
 
-## Apresentação
+## Presentation
 
-Slides de apresentação: [Slides](docs/Apresentacao_Linguagem_de_Programação_Aqua.pdf)
+Presentation slides: [Slides](docs/Apresentacao_Linguagem_de_Programação_Aqua.pdf)
 
 ## EBNF
 
@@ -32,56 +31,54 @@ LETTER = ( "a" | "..." | "z" | "A" | "..." | "Z" ) ;
 DIGIT = ( "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "0" );
 TYPE = ( "river" | "fish" ) ;
 OP_T = ( "branch" | "acumulate" | ">>" | "->" ) ;
-
 ```
 
-## Diagrama Sintático
+## Syntax Diagram
 
-![Diagrama Sintático](DiagramaSintatico.png)
+![Syntax Diagram](DiagramaSintatico.png)
 
-## Introdução
+## Introduction
 
-A linguagem Aqua desenvolvida para a matéria Lógica Computacional, é uma linguagem que simula o mundo natural ao escrever o código, para programar nessa linguagem é necessário criar connjuntos de rios e peixes e definir as relações entre eles. A linguagem é composta por 2 tipos de declarações, a declaração de rios, a declaração de peixes.
+The Aqua language, developed for the Computational Logic course, is a joke language that simulates the natural world through code. To program in this language, it is necessary to create sets of rivers and fish and define the relationships between them. The language consists of two types of declarations: river declarations and fish declarations.
 
-Observação: A linguagem não possui necessidade de identação, porém é recomendado para melhor visualização do código.
+Note: The language does not require indentation, but it is recommended for better code readability.
 
-Um exemplo comentado de código em Aqua é:
+A commented example of code in Aqua is:
 
 ```
-river x create 10 --cria um rio com 10 de água
+river x create 10 -- creates a river with 10 units of water
 
 river y create 10
 
-x >> 5 >> y -- O rio x transfere 5 de água para o rio y
-discover(x) -- imprime 5
-discover(y) -- imrime 15
+x >> 5 >> y -- River x transfers 5 units of water to river y
+discover(x) -- prints 5
+discover(y) -- prints 15
 
-x branch 5 -- O rio x se divide em 5 rios
-discover(x) -- imprime 1
-y >> 1 >> x -- O rio y transfere 1 de água para o rio x
-x acumulate 5 -- x = x*5 (o rio x acumula 5 vezes a quantidade de água que ele tem)
+x branch 5 -- River x splits into 5 rivers
+discover(x) -- prints 1
+y >> 1 >> x -- River y transfers 1 unit of water to river x
+x accumulate 5 -- x = x * 5 (river x accumulates 5 times the amount of water it has)
 
-fish z create 2,1 -- cria uma população de 2 que consome 1 por individuo
-fish f create 1,1 -- cria uma população de 1 que consome 1 por individuo
+fish z create 2,1 -- creates a population of 2 that consumes 1 per individual
+fish f create 1,1 -- creates a population of 1 that consumes 1 per individual
 
-x sustains z: -- enquanto x sustentar z 
--- para sustentar z é maior que 0 e z consome (reduz o valor de) x no valor de seu (consumoz*populaçãoz) e aumenta seu numero em (populaçãoz = populaçãoz + (populaçãoz-populaçãoz%2) + sub)
--- sub = dif se dif > 0 else 0
--- dif = populaçãox - populaçãoz*consumoz
+x sustains z: -- while x sustains z  
+-- to sustain z, x must be greater than 0, and z consumes (reduces the value of) x by the amount of its (z_consumption * z_population) and increases its number by (z_population = z_population + (z_population - z_population % 2) + sub)
+-- sub = dif if dif > 0 else 0
+-- dif = x_population - z_population * z_consumption  
 y >> 1 >> x:
-f -> z    -- f consome z para aumentar seu numero da mesma maneira do suatains
-event z inf f -- caso população de z é inferior a f inicia um evento
-extingish f -- f é extinto (delete f)
-conclude -- fim do evento
-pass_time -- passa o tempo (recomeça o loop)
+f -> z -- f consumes z to increase its number in the same way as sustains  
+event z inf f -- if the population of z is less than f, an event is triggered  
+extinguish f -- f is extinguished (delete f)  
+conclude -- end of event  
+pass_time -- time passes (the loop restarts)
 
-rain(y) -- todos os rios recebem valor de agua equivalente quantidade em y
+rain(y) -- all rivers receive a water value equivalent to the amount in y
 
-dry(x) -- todos os rios perdem valor de agua equivalente quantidade em x
-
+dry(x) -- all rivers lose a water value equivalent to the amount in x
 ```
 
-Um exemplo limpo de código em Aqua é:
+A clean example of code in Aqua is:
 
 ```
 river x create 10
@@ -92,17 +89,16 @@ discover(y)
 x branch 5
 discover(x)
 y >> 1 >> x
-x acumulate 5
+x accumulate 5
 fish z create 2,1
 fish f create 1,1
 x sustains z:
 y >> 1 >> x:
 f -> z   
 event z inf f 
-extingish f
+extinguish f
 conclude
 pass_time
 rain(y)
 dry(x)
-
 ```
