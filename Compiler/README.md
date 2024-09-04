@@ -1,13 +1,13 @@
-# Compilador Aqua
+# Aqua Compiler
 
-- Nesta pasta estão os arquivos do compilador Aqua, que é um compilador de uma linguagem de programação fictícia chamada Aqua.
+- In this folder are the files for the Aqua compiler, which is a compiler for a fictional programming language called Aqua.
 
-- Para compilar basta chamar o main.py passando o arquivo de entrada como argumento, por exemplo:
+- To compile, simply run `main.py` with the input file as an argument, for example:
   ```bash
   python3 main.py examples/ex0.aqua
   ```
 
-- Existem 5 arquivos na pasta de exemplos, sinta-se livre para usá-los ou escrever o próprio código:
+- There are 5 files in the examples folder. Feel free to use them or write your own code:
   - ex0.aqua
   - ex1.aqua
   - ex2.aqua
