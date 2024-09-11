@@ -4,11 +4,13 @@
 
 from tknizer import Tknizer
 from tkn import Tkn
-from node import *
-from symbolTable import Symbol_Table
+from node import (Node,Identifier,Create,Discover,Flow,
+                  Acumulate,Arrow,Sustains,Event,Rain,Dry,NoOp,
+                  Statement,COMPARISSON,Extinguish,Branch)
+from symbol_table import SymbolTable
 
 
-class Prsr(object):
+class Prsr():
     """
     Parses statements and constructs objects based on the token stream.
     Attributes:
@@ -41,65 +43,52 @@ class Prsr(object):
             Statement: The parsed statement.
 
         Raises:
-            ValueError: If an unexpected token is encountered or if a newline is expected but not found.
+            ValueError: If an unexpected token is encountered
+            or if a newline is expected but not found.
         """
         # print("teste: ",tknizer.next.type)
-        if tknizer.next.type == Tkn.type.EOF or tknizer.next.type == Tkn.type.NEWLINE:
+        if tknizer.next.type in (Tkn.Type.EOF,Tkn.Type.NEWLINE):
             tknizer.select_next()
             return NoOp()
-        if tknizer.next.type == Tkn.type.FISH or tknizer.next.type == Tkn.type.RIVER:
+        if tknizer.next.type in(Tkn.Type.FISH,Tkn.Type.RIVER):
             result = Prsr.parse_spawn(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.DISCOVER:
+        if tknizer.next.type == Tkn.Type.DISCOVER:
             result = Prsr.parse_discover(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.EVENT:
+        if tknizer.next.type == Tkn.Type.EVENT:
             result = Prsr.parse_event(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.RAIN:
+        if tknizer.next.type == Tkn.Type.RAIN:
             result = Prsr.parse_rain(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.DRY:
+        if tknizer.next.type == Tkn.Type.DRY:
             result = Prsr.parse_dry(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF) :
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.EXTINGUISH:
+        if tknizer.next.type == Tkn.Type.EXTINGUISH:
             result = Prsr.parse_extinguish(tknizer, symbol_table)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
-        if tknizer.next.type == Tkn.type.IDENTIFIER:
+        if tknizer.next.type == Tkn.Type.IDENTIFIER:
             name = tknizer.next.value
             name = Identifier(name, symbol_table)
             tknizer.select_next()
-            if tknizer.next.type == Tkn.type.SUSTAINS:
+            if tknizer.next.type == Tkn.Type.SUSTAINS:
                 result = Prsr.parse_sustains(tknizer, symbol_table, name)
             else:
                 result = Prsr.parse_operation(tknizer, symbol_table, name)
-            if (tknizer.next.type != Tkn.type.NEWLINE) and (
-                tknizer.next.type != Tkn.type.EOF
-            ):
+            if tknizer.next.type not in (Tkn.Type.NEWLINE,Tkn.Type.EOF):
                 raise ValueError("Expected newline")
             return result
 
@@ -119,23 +108,23 @@ class Prsr(object):
             ValueError: If the expected tokens are not found in the token stream.
         """
         my_type = ""
-        if tknizer.next.type == Tkn.type.FISH:
+        if tknizer.next.type == Tkn.Type.FISH:
             my_type = "fish"
         else:
             my_type = "river"
         tknizer.select_next()
         name = tknizer.next.value
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.CREATE:
+        if tknizer.next.type != Tkn.Type.CREATE:
             raise ValueError("Expected create")
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.NUMBER:
+        if tknizer.next.type != Tkn.Type.NUMBER:
             raise ValueError("Expected number")
         value = int(tknizer.next.value)
         tknizer.select_next()
-        if tknizer.next.type == Tkn.type.COMMA:
+        if tknizer.next.type == Tkn.Type.COMMA:
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.NUMBER:
+            if tknizer.next.type != Tkn.Type.NUMBER:
                 raise ValueError("Expected number")
             value2 = int(tknizer.next.value)
             tknizer.select_next()
@@ -160,15 +149,15 @@ class Prsr(object):
             ValueError: If the expected tokens are not found.
         """
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_OPEN:
+        if tknizer.next.type != Tkn.Type.PAREN_OPEN:
             raise ValueError("Expected (")
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name = tknizer.next.value
         name = Identifier(name, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_CLOSE:
+        if tknizer.next.type != Tkn.Type.PAREN_CLOSE:
             raise ValueError("Expected )")
         tknizer.select_next()
         return Discover(name)
@@ -191,21 +180,18 @@ class Prsr(object):
         """
         # Code implementation goes here
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name2 = tknizer.next.value
         name2 = Identifier(name2, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.NEWLINE:
+        if tknizer.next.type != Tkn.Type.NEWLINE:
             raise ValueError("Expected newline")
         tknizer.select_next()
         result = []
-        while (
-            tknizer.next.type != Tkn.type.PASS_TIME
-            and tknizer.next.type != Tkn.type.EOF
-        ):
+        while tknizer.next.type not in (Tkn.Type.PASS_TIME,Tkn.Type.EOF):
             result.append(Prsr.parse_statement(tknizer, symbol_table))
-        if tknizer.next.type != Tkn.type.PASS_TIME:
+        if tknizer.next.type != Tkn.Type.PASS_TIME:
             raise ValueError("Expected pass_time")
         tknizer.select_next()
         return Sustains(result, name, name2, symbol_table)
@@ -226,29 +212,27 @@ class Prsr(object):
             ValueError: If the expected tokens are not found in the token stream.
         """
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name = tknizer.next.value
         name = Identifier(name, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.COMPARISSON:
+        if tknizer.next.type != Tkn.Type.COMPARISSON:
             raise ValueError("Expected COMPARISSON")
         comparisson_type = tknizer.next.value
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name2 = tknizer.next.value
         name2 = Identifier(name2, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.NEWLINE:
+        if tknizer.next.type != Tkn.Type.NEWLINE:
             raise ValueError("Expected newline")
         tknizer.select_next()
         result = []
-        while (
-            tknizer.next.type != Tkn.type.CONCLUDE and tknizer.next.type != Tkn.type.EOF
-        ):
+        while tknizer.next.type not in(Tkn.Type.CONCLUDE,Tkn.Type.EOF):
             result.append(Prsr.parse_statement(tknizer, symbol_table))
-        if tknizer.next.type != Tkn.type.CONCLUDE:
+        if tknizer.next.type != Tkn.Type.CONCLUDE:
             raise ValueError("Expected conclude")
         tknizer.select_next()
         comparissom_node = COMPARISSON(name, name2, comparisson_type)
@@ -270,15 +254,15 @@ class Prsr(object):
             ValueError: If the expected tokens are not found.
         """
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_OPEN:
+        if tknizer.next.type != Tkn.Type.PAREN_OPEN:
             raise ValueError("Expected (")
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name = tknizer.next.value
         name = Identifier(name, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_CLOSE:
+        if tknizer.next.type != Tkn.Type.PAREN_CLOSE:
             raise ValueError("Expected )")
         tknizer.select_next()
         return Rain(name, symbol_table)
@@ -299,15 +283,15 @@ class Prsr(object):
             ValueError: If the expected tokens are not found in the token stream.
         """
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_OPEN:
+        if tknizer.next.type != Tkn.Type.PAREN_OPEN:
             raise ValueError("Expected (")
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name = tknizer.next.value
         name = Identifier(name, symbol_table)
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.PAREN_CLOSE:
+        if tknizer.next.type != Tkn.Type.PAREN_CLOSE:
             raise ValueError("Expected )")
         tknizer.select_next()
         return Dry(name, symbol_table)
@@ -328,7 +312,7 @@ class Prsr(object):
             ValueError: If the next token is not an identifier.
         """
         tknizer.select_next()
-        if tknizer.next.type != Tkn.type.IDENTIFIER:
+        if tknizer.next.type != Tkn.Type.IDENTIFIER:
             raise ValueError("Expected identifier")
         name = tknizer.next.value
         tknizer.select_next()
@@ -350,38 +334,38 @@ class Prsr(object):
         Raises:
             ValueError: If the operation is invalid or if the expected tokens are not found.
         """
-        if tknizer.next.type == Tkn.type.BRANCH:
+        if tknizer.next.type == Tkn.Type.BRANCH:
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.NUMBER:
+            if tknizer.next.type != Tkn.Type.NUMBER:
                 raise ValueError("Expected number")
             value = int(tknizer.next.value)
             tknizer.select_next()
             return Branch(value, name, symbol_table)
-        if tknizer.next.type == Tkn.type.ACUMULATE:
+        if tknizer.next.type == Tkn.Type.ACUMULATE:
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.NUMBER:
+            if tknizer.next.type != Tkn.Type.NUMBER:
                 raise ValueError("Expected number")
             value = int(tknizer.next.value)
             tknizer.select_next()
             return Acumulate(value, name, symbol_table)
-        if tknizer.next.type == Tkn.type.FLOW:
+        if tknizer.next.type == Tkn.Type.FLOW:
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.NUMBER:
+            if tknizer.next.type != Tkn.Type.NUMBER:
                 raise ValueError("Expected number")
             value = int(tknizer.next.value)
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.FLOW:
+            if tknizer.next.type != Tkn.Type.FLOW:
                 raise ValueError("Expected Flow")
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.IDENTIFIER:
+            if tknizer.next.type != Tkn.Type.IDENTIFIER:
                 raise ValueError("Expected identifier")
             name2 = tknizer.next.value
             name2 = Identifier(name2, symbol_table)
             tknizer.select_next()
             return Flow(value, name, name2, symbol_table)
-        if tknizer.next.type == Tkn.type.ARROW:
+        if tknizer.next.type == Tkn.Type.ARROW:
             tknizer.select_next()
-            if tknizer.next.type != Tkn.type.IDENTIFIER:
+            if tknizer.next.type != Tkn.Type.IDENTIFIER:
                 raise ValueError("Expected identifier")
             name2 = tknizer.next.value
             name2 = Identifier(name2, symbol_table)
@@ -403,7 +387,7 @@ class Prsr(object):
 
         """
         result = NoOp()
-        while tknizer.next.type != Tkn.type.EOF:
+        while tknizer.next.type != Tkn.Type.EOF:
             # print("teste: ",result)
             result = Statement(
                 result, Prsr.parse_statement(tknizer, symbol_table))
@@ -422,6 +406,6 @@ class Prsr(object):
             object: The result of parsing the source code.
         """
         tknizer = Tknizer(source, 0, None)
-        symbol_table = Symbol_Table()
+        symbol_table = SymbolTable()
         tknizer.select_next()  # select first token
         return Prsr.parse_block(tknizer, symbol_table)

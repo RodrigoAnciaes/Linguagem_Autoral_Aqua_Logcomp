@@ -1,4 +1,36 @@
-class Symbol_Table:
+"""
+Symbol Table Management System
+
+This module defines the SymbolTable class, which is responsible for managing symbols 
+in a table. Each symbol can be associated with values and a type, representing different 
+entities (such as rivers and fish) and their respective data.
+
+Classes:
+    - SymbolTable: Manages symbols, allowing insertion, lookup, creation, and removal of symbols.
+
+Class Symbol_Table:
+    Methods:
+        - insert(name, value1, value2, type_):
+          Inserts a variable (symbol) into the table with given attributes.
+        - lookup(name): Looks up a variable by its name in the symbol table.
+        - look_all_rivers(): Returns a list of all symbols representing rivers.
+        - look_all_fishes(): Returns a list of all symbols representing fish.
+        - create(name): Creates a new symbol without assigning any values.
+        - create_assign(name, value1, value2, type_):
+          Creates and assigns values to a symbol in the table.
+        - remove(name): Removes a symbol from the symbol table by name.
+
+Usage Example:
+    table = SymbolTable()
+    table.create('Amazon River')
+    table.create_assign('Salmon', 1000, 200, 'fish')
+    table.insert('Amazon River', 5000, 300, 'river')
+    river_data = table.lookup('Amazon River')
+    all_fish = table.look_all_fishes()
+"""
+
+class SymbolTable:
+
     """
     Class representing a symbol table.
     Methods:
@@ -32,8 +64,7 @@ class Symbol_Table:
         if name in self.symbols:
             if value2 < 0:
                 raise ValueError("Negative value for consumption")
-            if value1 < 0:
-                value1 = 0
+            value1 = max(value1, 0)
             self.symbols[name] = (value1, value2, type_, name)
         else:
             raise ValueError(f"Variable {name} not found in symbol table (insert)")
