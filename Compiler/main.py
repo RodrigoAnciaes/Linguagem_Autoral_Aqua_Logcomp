@@ -6,7 +6,7 @@ Description: This script processes a file through preprocessing and parsing step
 
 import sys
 from prsr import Prsr
-from PrePro import PrePro
+from pre_pro import PrePro
 
 def main():
     """

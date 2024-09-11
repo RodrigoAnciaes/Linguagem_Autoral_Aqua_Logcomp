@@ -22,7 +22,7 @@ Classes:
 that removes a variable from the symbol table.
 """
 from abc import ABC, abstractmethod
-from symbolTable import Symbol_Table
+from symbol_table import SymbolTable
 
 
 class Node(ABC):
@@ -57,15 +57,15 @@ class Identifier(Node):
     Represents an identifier node in the abstract syntax tree.
     Args:
         value (str): The value of the identifier.
-        st (Symbol_Table): The symbol table associated with the identifier.
+        st (SymbolTable): The symbol table associated with the identifier.
     Attributes:
         value (str): The value of the identifier.
-        st (Symbol_Table): The symbol table associated with the identifier.
+        st (SymbolTable): The symbol table associated with the identifier.
     Methods:
         evaluate(): Evaluates the identifier by looking up its value in the symbol table.
     """
 
-    def __init__(self, value: str, st: Symbol_Table):
+    def __init__(self, value: str, st: SymbolTable):
         super().__init__(value)
         self.st = st
 
@@ -85,13 +85,13 @@ class Create(Node):
         name (str): The name of the variable being created.
         value1 (int): The first value used in the create operation.
         value2 (int): The second value used in the create operation.
-        st (Symbol_Table): The symbol table used for variable management.
+        st (SymbolTable): The symbol table used for variable management.
         var_type (str): The type of the variable being created.
     Attributes:
         name (str): The name of the variable being created.
         value1 (int): The first value used in the create operation.
         value2 (int): The second value used in the create operation.
-        st (Symbol_Table): The symbol table used for variable management.
+        st (SymbolTable): The symbol table used for variable management.
         var_type (str): The type of the variable being created.
     Methods:
         evaluate(): Performs the create operation 
@@ -106,7 +106,7 @@ class Create(Node):
     """
 
     def __init__(
-        self, name: str, value1: int, value2: int, st: Symbol_Table, var_type: str
+        self, name: str, value1: int, value2: int, st: SymbolTable, var_type: str
     ):
         super().__init__(value1)
         self.name = name
@@ -163,18 +163,18 @@ class Flow(Node):
         value (int): The value to be transferred.
         left (Node): The left node.
         right (Node): The right node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Attributes:
         left (Node): The left node.
         right (Node): The right node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Methods:
         evaluate: Evaluates the flow node.
     """
 
     # x >> 5 >> y
     # a variável x transfere 5 para a variável y
-    def __init__(self, value: int, left: Node, right: Node, st: Symbol_Table):
+    def __init__(self, value: int, left: Node, right: Node, st: SymbolTable):
         super().__init__(value)
         self.left = left
         self.right = right
@@ -201,17 +201,17 @@ class Branch(Node):
     Args:
         value (int): The value of the branch.
         left (Node): The left child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Attributes:
         left (Node): The left child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Methods:
         evaluate(): Evaluates the branch node.
     """
 
     # x branch 5
     # a variável x se ramifica em 5 (x/5)
-    def __init__(self, value: int, left: Node, st: Symbol_Table):
+    def __init__(self, value: int, left: Node, st: SymbolTable):
         super().__init__(value)
         self.left = left
         self.st = st
@@ -234,11 +234,11 @@ class Acumulate(Node):
     Args:
         value (int): The value to be multiplied with the variable.
         left (Node): The left child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Attributes:
         value (int): The value to be multiplied with the variable.
         left (Node): The left child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Methods:
         evaluate(): Evaluates the accumulation operation and updates the symbol table.
         __str__(): Returns a string representation of the node.
@@ -248,7 +248,7 @@ class Acumulate(Node):
 
     # x acumulate 5
     # a variável x acumula 5 (x*5)
-    def __init__(self, value: int, left: Node, st: Symbol_Table):
+    def __init__(self, value: int, left: Node, st: SymbolTable):
         super().__init__(value)
         self.left = left
         self.st = st
@@ -271,11 +271,11 @@ class Arrow(Node):
     Args:
         left (Node): The left child node.
         right (Node): The right child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Attributes:
         left (Node): The left child node.
         right (Node): The right child node.
-        st (Symbol_Table): The symbol table.
+        st (SymbolTable): The symbol table.
     Methods:
         evaluate(): Evaluates the Arrow node.
     Raises:
@@ -286,7 +286,7 @@ class Arrow(Node):
 
     # x -> y
     # cada f caça z para aumentar seu numero em (população-população%2)
-    def __init__(self, left: Node, right: Node, st: Symbol_Table):
+    def __init__(self, left: Node, right: Node, st: SymbolTable):
         super().__init__(None)
         self.left = left
         self.right = right
@@ -320,11 +320,11 @@ class Sustains(Node):
         child (list): List of child nodes.
         left (Node): Left node.
         right (Node): Right node.
-        st (Symbol_Table): Symbol table.
+        st (SymbolTable): Symbol table.
     Attributes:
         left (Node): Left node.
         right (Node): Right node.
-        st (Symbol_Table): Symbol table.
+        st (SymbolTable): Symbol table.
         child (list): List of child nodes.
     Methods:
         evaluate(): Evaluates the sustains operation.
@@ -335,7 +335,7 @@ class Sustains(Node):
     # e aumenta seu numero em
     # (população-população%2) (populaçãox = populaçãox + (populaçãox-populaçãox%2) )
 
-    def __init__(self, child: list, left: Node, right: Node, st: Symbol_Table):
+    def __init__(self, child: list, left: Node, right: Node, st: SymbolTable):
         super().__init__(None)
         self.left = left
         self.right = right
@@ -368,10 +368,10 @@ class Event(Node):
     Args:
         child (list): A list of child nodes.
         condition (Node): The condition node for the event.
-        st (Symbol_Table): The symbol table for the event.
+        st (SymbolTable): The symbol table for the event.
     Attributes:
         condition (Node): The condition node for the event.
-        st (Symbol_Table): The symbol table for the event.
+        st (SymbolTable): The symbol table for the event.
         child (list): A list of child nodes.
     Methods:
         evaluate(): Evaluates the event by checking the condition
@@ -380,7 +380,7 @@ class Event(Node):
 
     # simple if statement
     # event condition
-    def __init__(self, child: list, condition: Node, st: Symbol_Table):
+    def __init__(self, child: list, condition: Node, st: SymbolTable):
         super().__init__(None)
         self.condition = condition
         self.st = st
@@ -400,10 +400,10 @@ class Rain(Node):
     Initializes a Rain object.
     Args:
         value (Node): The value of the Rain object.
-        st (Symbol_Table): The symbol table associated with the Rain object.
+        st (SymbolTable): The symbol table associated with the Rain object.
     """
 
-    def __init__(self, value: Node, st: Symbol_Table):
+    def __init__(self, value: Node, st: SymbolTable):
         super().__init__(None)
         self.value = value
         self.st = st
@@ -428,14 +428,14 @@ class Dry(Node):
     Initializes a Dry node.
     Args:
         value (Node): The value node representing the amount of water to remove.
-        st (Symbol_Table): The symbol table containing the rivers.
+        st (SymbolTable): The symbol table containing the rivers.
     Attributes:
         value (Node): The value node representing the amount of water to remove.
-        st (Symbol_Table): The symbol table containing the rivers.
+        st (SymbolTable): The symbol table containing the rivers.
         val1 (None): Placeholder for the evaluated value of the 'value' node.
     """
 
-    def __init__(self, value: Node, st: Symbol_Table):
+    def __init__(self, value: Node, st: SymbolTable):
         super().__init__(None)
         self.value = value
         self.st = st
@@ -546,13 +546,13 @@ class Extinguish(Node):
     that removes a variable from the symbol table.
     Attributes:
         name (str): The name of the variable to be removed.
-        st (Symbol_Table): The symbol table from which the variable will be removed.
+        st (SymbolTable): The symbol table from which the variable will be removed.
     Methods:
         evaluate(): Removes the variable from the symbol table.
         __str__(): Returns a string representation of the Extinguish node.
     """
 
-    def __init__(self, name: str, st: Symbol_Table):
+    def __init__(self, name: str, st: SymbolTable):
         super().__init__(None)
         self.name = name
         self.st = st

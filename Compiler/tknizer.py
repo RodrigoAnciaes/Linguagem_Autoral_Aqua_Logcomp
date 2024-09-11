@@ -7,7 +7,7 @@ Description: This module defines the Tknizer class, which is responsible for tok
 from tkn import Tkn
 
 
-class Tknizer(object):
+class Tknizer():
     """
     A class representing a tokenizer that processes an input source into tokens.
     """
@@ -30,17 +30,17 @@ class Tknizer(object):
             ValueError: If an invalid character is encountered in the source.
         """
         if self.position >= len(self.source):
-            self.next = Tkn(Tkn.type.EOF, None)
+            self.next = Tkn(Tkn.Type.EOF, None)
             return self.next
         while self.source[self.position] in [" ", "\t", "\r"]:
             self.position += 1
             if self.position >= len(self.source):
-                self.next = Tkn(Tkn.type.EOF, None)
+                self.next = Tkn(Tkn.Type.EOF, None)
                 return next
         # \n
         if self.source[self.position] == "\n":
             self.position += 1
-            self.next = Tkn(Tkn.type.NEWLINE, "\n")
+            self.next = Tkn(Tkn.Type.NEWLINE, "\n")
             return self.next
         # NUMBER
         if self.source[self.position].isdigit():
@@ -50,21 +50,21 @@ class Tknizer(object):
                 and self.source[self.position].isdigit()
             ):
                 self.position += 1
-            self.next = Tkn(Tkn.type.NUMBER, int(self.source[start : self.position]))
+            self.next = Tkn(Tkn.Type.NUMBER, int(self.source[start : self.position]))
             return self.next
         # COMMA
         if self.source[self.position] == ",":
-            self.next = Tkn(Tkn.type.COMMA, ",")
+            self.next = Tkn(Tkn.Type.COMMA, ",")
             self.position += 1
             return self.next
         # PAREN_OPEN
         if self.source[self.position] == "(":
-            self.next = Tkn(Tkn.type.PAREN_OPEN, "(")
+            self.next = Tkn(Tkn.Type.PAREN_OPEN, "(")
             self.position += 1
             return self.next
         # PAREN_CLOSE
         if self.source[self.position] == ")":
-            self.next = Tkn(Tkn.type.PAREN_CLOSE, ")")
+            self.next = Tkn(Tkn.Type.PAREN_CLOSE, ")")
             self.position += 1
             return self.next
         ## RESERVED WORDS SECTION ##
@@ -77,7 +77,7 @@ class Tknizer(object):
                 self.position + 3 < len(self.source)
                 and self.source[self.position : self.position + 3] == "inf"
             ):
-                self.next = Tkn(Tkn.type.COMPARISSON, "inf")
+                self.next = Tkn(Tkn.Type.COMPARISSON, "inf")
                 self.position += 3
                 return self.next
 
@@ -87,7 +87,7 @@ class Tknizer(object):
                 self.position + 3 < len(self.source)
                 and self.source[self.position : self.position + 3] == "sup"
             ):
-                self.next = Tkn(Tkn.type.COMPARISSON, "sup")
+                self.next = Tkn(Tkn.Type.COMPARISSON, "sup")
                 self.position += 3
                 return self.next
 
@@ -97,7 +97,7 @@ class Tknizer(object):
                 self.position + 2 < len(self.source)
                 and self.source[self.position : self.position + 2] == "ig"
             ):
-                self.next = Tkn(Tkn.type.COMPARISSON, "ig")
+                self.next = Tkn(Tkn.Type.COMPARISSON, "ig")
                 self.position += 2
                 return self.next
 
@@ -107,7 +107,7 @@ class Tknizer(object):
                 self.position + 6 < len(self.source)
                 and self.source[self.position : self.position + 6] == "create"
             ):
-                self.next = Tkn(Tkn.type.CREATE, "create")
+                self.next = Tkn(Tkn.Type.CREATE, "create")
                 self.position += 6
                 return self.next
 
@@ -117,7 +117,7 @@ class Tknizer(object):
                 self.position + 6 < len(self.source)
                 and self.source[self.position : self.position + 6] == "branch"
             ):
-                self.next = Tkn(Tkn.type.BRANCH, "branch")
+                self.next = Tkn(Tkn.Type.BRANCH, "branch")
                 self.position += 6
                 return self.next
 
@@ -127,7 +127,7 @@ class Tknizer(object):
                 self.position + 9 < len(self.source)
                 and self.source[self.position : self.position + 9] == "acumulate"
             ):
-                self.next = Tkn(Tkn.type.ACUMULATE, "acumulate")
+                self.next = Tkn(Tkn.Type.ACUMULATE, "acumulate")
                 self.position += 9
                 return self.next
 
@@ -137,7 +137,7 @@ class Tknizer(object):
                 self.position + 5 < len(self.source)
                 and self.source[self.position : self.position + 5] == "river"
             ):
-                self.next = Tkn(Tkn.type.RIVER, "river")
+                self.next = Tkn(Tkn.Type.RIVER, "river")
                 self.position += 5
                 return self.next
 
@@ -147,7 +147,7 @@ class Tknizer(object):
                 self.position + 4 < len(self.source)
                 and self.source[self.position : self.position + 4] == "fish"
             ):
-                self.next = Tkn(Tkn.type.FISH, "fish")
+                self.next = Tkn(Tkn.Type.FISH, "fish")
                 self.position += 4
                 return self.next
 
@@ -157,7 +157,7 @@ class Tknizer(object):
                 self.position + 8 < len(self.source)
                 and self.source[self.position : self.position + 8] == "discover"
             ):
-                self.next = Tkn(Tkn.type.DISCOVER, "discover")
+                self.next = Tkn(Tkn.Type.DISCOVER, "discover")
                 self.position += 8
                 return self.next
 
@@ -167,7 +167,7 @@ class Tknizer(object):
                 self.position + 8 < len(self.source)
                 and self.source[self.position : self.position + 8] == "sustains"
             ):
-                self.next = Tkn(Tkn.type.SUSTAINS, "sustains")
+                self.next = Tkn(Tkn.Type.SUSTAINS, "sustains")
                 self.position += 8
                 return self.next
 
@@ -177,7 +177,7 @@ class Tknizer(object):
                 self.position + 5 < len(self.source)
                 and self.source[self.position : self.position + 5] == "event"
             ):
-                self.next = Tkn(Tkn.type.EVENT, "event")
+                self.next = Tkn(Tkn.Type.EVENT, "event")
                 self.position += 5
                 return self.next
 
@@ -187,7 +187,7 @@ class Tknizer(object):
                 self.position + 7 < len(self.source)
                 and self.source[self.position : self.position + 8] == "conclude"
             ):
-                self.next = Tkn(Tkn.type.CONCLUDE, "conclude")
+                self.next = Tkn(Tkn.Type.CONCLUDE, "conclude")
                 self.position += 8
                 return self.next
 
@@ -197,7 +197,7 @@ class Tknizer(object):
                 self.position + 4 < len(self.source)
                 and self.source[self.position : self.position + 4] == "rain"
             ):
-                self.next = Tkn(Tkn.type.RAIN, "rain")
+                self.next = Tkn(Tkn.Type.RAIN, "rain")
                 self.position += 4
                 return self.next
 
@@ -207,7 +207,7 @@ class Tknizer(object):
                 self.position + 3 < len(self.source)
                 and self.source[self.position : self.position + 3] == "dry"
             ):
-                self.next = Tkn(Tkn.type.DRY, "dry")
+                self.next = Tkn(Tkn.Type.DRY, "dry")
                 self.position += 3
                 return self.next
 
@@ -217,7 +217,7 @@ class Tknizer(object):
                 self.position + 10 < len(self.source)
                 and self.source[self.position : self.position + 10] == "extinguish"
             ):
-                self.next = Tkn(Tkn.type.EXTINGUISH, "extinguish")
+                self.next = Tkn(Tkn.Type.EXTINGUISH, "extinguish")
                 self.position += 10
                 return self.next
 
@@ -227,7 +227,7 @@ class Tknizer(object):
                 self.position + 8 < len(self.source)
                 and self.source[self.position : self.position + 9] == "pass_time"
             ):
-                self.next = Tkn(Tkn.type.PASS_TIME, "pass_time")
+                self.next = Tkn(Tkn.Type.PASS_TIME, "pass_time")
                 self.position += 9
                 return self.next
 
@@ -241,23 +241,20 @@ class Tknizer(object):
                 or self.source[self.position] == "_"
             ):
                 self.position += 1
-            self.next = Tkn(Tkn.type.IDENTIFIER, self.source[start : self.position])
+            self.next = Tkn(Tkn.Type.IDENTIFIER, self.source[start : self.position])
             return self.next
 
         # ARROW ->
         if self.source[self.position] == "-" and self.source[self.position + 1] == ">":
-            self.next = Tkn(Tkn.type.ARROW, "->")
+            self.next = Tkn(Tkn.Type.ARROW, "->")
             self.position += 2
             return self.next
 
         # FLOW >>
         if self.source[self.position] == ">" and self.source[self.position + 1] == ">":
-            self.next = Tkn(Tkn.type.FLOW, ">>")
+            self.next = Tkn(Tkn.Type.FLOW, ">>")
             self.position += 2
             return self.next
 
         raise ValueError(
-            "Invalid character {character} at position {position}".format(
-                position=self.position, character=self.source[self.position]
-            )
-        )
+            f"Invalid character {self.source[self.position]} at position {self.position}")

@@ -18,7 +18,7 @@ class Tkn:
         return f'Tkn({self.type}, {repr(self.value)})'
     def __repr__(self):
         return self.__str__()
-    class type(enum.Enum):
+    class Type(enum.Enum):
         """
         An enumeration representing the possible types of tokens.
         """
