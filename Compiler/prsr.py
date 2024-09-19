@@ -2,12 +2,16 @@
     This module contains the parser class which is responsible for parsing the source code.
 """
 
-from tknizer import Tknizer
-from tkn import Tkn
-from node import (Node,Identifier,Create,Discover,Flow,
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+
+from Compiler.tknizer import Tknizer
+from Compiler.tkn import Tkn
+from Compiler.node import (Node,Identifier,Create,Discover,Flow,
                   Acumulate,Arrow,Sustains,Event,Rain,Dry,NoOp,
                   Statement,COMPARISSON,Extinguish,Branch)
-from symbol_table import SymbolTable
+from Compiler.symbol_table import SymbolTable
 
 
 class Prsr():

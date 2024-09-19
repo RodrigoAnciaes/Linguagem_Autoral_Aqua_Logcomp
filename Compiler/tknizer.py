@@ -3,8 +3,10 @@ Module: tknizer
 Description: This module defines the Tknizer class, which is responsible for tokenizing
              a source input into distinct tokens that can be used for parsing.
 """
-
-from tkn import Tkn
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+from Compiler.tkn import Tkn
 
 
 class Tknizer():

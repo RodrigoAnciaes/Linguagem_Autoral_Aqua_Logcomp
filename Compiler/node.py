@@ -21,8 +21,11 @@ Classes:
 - Extinguish: Represents a node in the compiler's abstract syntax tree (AST) 
 that removes a variable from the symbol table.
 """
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 from abc import ABC, abstractmethod
-from symbol_table import SymbolTable
+from Compiler.symbol_table import SymbolTable
 
 
 class Node(ABC):

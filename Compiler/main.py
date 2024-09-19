@@ -5,8 +5,11 @@ Description: This script processes a file through preprocessing and parsing step
 """
 
 import sys
-from prsr import Prsr
-from pre_pro import PrePro
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+from Compiler.prsr import Prsr
+from Compiler.pre_pro import PrePro
+
 
 def main():
     """
